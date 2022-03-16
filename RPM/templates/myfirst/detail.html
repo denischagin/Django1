@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}{{firstapp.simple_title}}{% endblock %}
+
+{% block content %}
+<h2>{{firstapp.simple_title}}</h2>
+
+<p>{{firstapp.simple_text}}</p>
+
+<em>{{firstapp.pub_date}}</em>
+
+<hr>
+
+{% if latest_comments_list %}
+    {% for c in latest_comments_list %}
+        <p>
+            <strong>{{c.name_author}}</strong>
+            <p>{{c.text_comment}}</p>
+        </p>
+        <hr>
+    {% endfor %}
+{% else %}
+Комменрии не найдены
+{% endif %}
+
+<hr>
+<form action="{% url 'firstapp:leave_comment' firstapp.id %}" method="POST">
+    {% csrf_token %}
+    <input type="text" required placeholder="Ваше имя" name="name"><br>
+    <textarea name="text" required="" placeholder="Текст комментария" cols="30" rows="10"></textarea><br>
+    <button type="submit">Оставить комментарий</button>
+</form>
+{% endblock %}
